@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Crawls the PCSC 2017 proceedings site.
+# Crawls the PCSC proceedings site.
 # This should be used in an Scrapy project
 # jachermocilla@gmail.com
 #
@@ -13,35 +13,57 @@ import requests
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.linkextractors import LinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.selector import Selector
+
 
 class PCSCProcSpider(scrapy.Spider):
     name = 'pcscprocspider' #use this for crawl
     allowed_domains = ['https://sites.google.com']
-    start_urls = ['https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017/']
-
-
-#    rules = (Rule(SgmlLinkExtractor(), callback='parse_url', follow=False), )
-
-#    def parse_url(self, response):
-#        item = MyItem()
-#        item['url'] = response.url
-#        return item
+    start_urls=['https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2012/',
+                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013/',
+                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014/',
+                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016/',
+                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017']
+    
+    #counter
+    i = 1
 
     global download_file_from_google_drive
     global get_confirm_token
     global save_response_content
+    global direct_download
 
     def parse(self, response):
-	extractor = LinkExtractor(allow_domains='drive.google.com')
+        extractor = LinkExtractor(allow_domains=['drive.google.com','docs.google.com'])
         links = extractor.extract_links(response)
-        i=1
         for link in links:
-            print link.url
             tmp=str(link.url)
-            data=tmp.split('/')
-            print data[5]
-            download_file_from_google_drive(data[5],str(i)+".pdf")		          
-            i=i+1
+            print "URL: " + tmp
+            if ".pdf?att" in tmp:
+                print "DIRECT DOWNLOAD"
+                direct_download(link.url,str(self.i))          
+                break
+            elif "open" in tmp:
+                data=tmp.split('=')
+                data=data[1].split('&')
+                docid=data[0]
+            elif "viewer" in tmp:
+                data=tmp.split('=')
+                docid=data[3]
+            else:
+                data=tmp.split('/')
+                docid=data[5]
+
+            print docid
+            
+            download_file_from_google_drive(docid,str(self.i)+".pdf")		          
+            self.i = self.i+1
+
+    def direct_download(url, destination):
+        r = requests.get(url, stream=True)
+        with open(destination, 'wb') as fd:
+            for chunk in r.iter_content(chunk_size):
+                fd.write(chunk)
 
     def download_file_from_google_drive(id, destination):
         URL = "https://docs.google.com/uc?export=download"
