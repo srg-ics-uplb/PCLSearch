@@ -23,6 +23,7 @@ class PCSCProcSpider(scrapy.Spider):
                 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013/',
                 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014/',
                 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016/',
+                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2015/',
                 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017']
     
     #counter
