@@ -19,14 +19,16 @@ from scrapy.selector import Selector
 class PCSCProcSpider(scrapy.Spider):
     name = 'pcscprocspider' #use this for crawl
     allowed_domains = ['https://sites.google.com']
-    start_urls=['https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2012/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2015/',
+    start_urls=[
+#		 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2012/',
+#                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013/',
+#                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014/',
+#                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016/',
+#                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2015/',
                 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017']
     
     #counter
+
     i = 1
 
     global download_file_from_google_drive
@@ -37,9 +39,15 @@ class PCSCProcSpider(scrapy.Spider):
     def parse(self, response):
         extractor = LinkExtractor(allow_domains=['drive.google.com','docs.google.com'])
         links = extractor.extract_links(response)
+
+
+	index_file=open("index.txt", "a+")
+
         for link in links:
+            
             tmp=str(link.url)
             print "URL: " + tmp
+            
             if ".pdf?att" in tmp:
                 print "DIRECT DOWNLOAD"
                 direct_download(link.url,str(self.i))          
@@ -58,8 +66,12 @@ class PCSCProcSpider(scrapy.Spider):
             print docid
             
             download_file_from_google_drive(docid,str(self.i)+".pdf")		          
+
+	    index_file.write(tmp +","+str(self.i)+".pdf\n")
+
             self.i = self.i+1
 
+        index_file.close()
     def direct_download(url, destination):
         r = requests.get(url, stream=True)
         with open(destination, 'wb') as fd:
