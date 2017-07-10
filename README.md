@@ -8,3 +8,8 @@ This project utilizes docker and docker-compose. Five containers are used:
 3. 1 container for AngularJS (Client)
 4. 1 container for GROBID (Paper metadata extractor)
 5. 1 container for Scrapy (Web Crawler)
+
+
+To start the development environment:
+
+`$sudo docker-compose up`
