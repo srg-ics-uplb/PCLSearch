@@ -27,6 +27,8 @@ services:
     build: crawlers/scrapy  # specify image to build container from
     tty: true
     stdin_open: true
+    ports:
+      - "7070:80" # specify port forewarding
 
   grobid: # 
     image: lfoppiano/grobid:0.4.1

@@ -22,3 +22,7 @@ Cleanup:
 
 `$./remove-all.sh`
 
+
+To get a shell
+
+`$sudo docker exec -it <container> /bin/bash`

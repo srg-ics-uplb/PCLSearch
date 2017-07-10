@@ -40,8 +40,9 @@ class PCSCProcSpider(scrapy.Spider):
         extractor = LinkExtractor(allow_domains=['drive.google.com','docs.google.com'])
         links = extractor.extract_links(response)
 
+        pdf_dir="/var/www/html/pdfs/"
 
-	index_file=open("index.txt", "a+")
+        index_file=open("index.txt", "a+")
 
         for link in links:
             
@@ -65,9 +66,9 @@ class PCSCProcSpider(scrapy.Spider):
 
             print docid
             
-            download_file_from_google_drive(docid,str(self.i)+".pdf")		          
+            download_file_from_google_drive(docid,pdf_dir+str(self.i)+".pdf")		          
 
-	    index_file.write(tmp +","+str(self.i)+".pdf\n")
+            index_file.write(tmp +","+str(self.i)+".pdf\n")
 
             self.i = self.i+1
 
