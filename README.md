@@ -13,3 +13,5 @@ This project utilizes docker and docker-compose. Five containers are used:
 To start the development environment:
 
 `$./rebuild-all.sh`
+
+`$./start-all.sh`
