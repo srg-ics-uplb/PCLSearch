@@ -25,6 +25,8 @@ services:
   
   scrapy: # name of the third service
     build: crawlers/scrapy  # specify image to build container from
+    tty: true
+    stdin_open: true
 
   grobid: # 
     image: lfoppiano/grobid:0.4.1

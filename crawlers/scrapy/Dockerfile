@@ -17,3 +17,7 @@ RUN apt-get install -qy libffi-dev libxml2-dev libxslt-dev lib32z1-dev libssl-de
 
 ## Scrapy
 RUN pip install lxml scrapy scrapyjs
+
+RUN mkdir -p /usr/src/app 
+WORKDIR /usr/src/app
+COPY . /usr/src/app

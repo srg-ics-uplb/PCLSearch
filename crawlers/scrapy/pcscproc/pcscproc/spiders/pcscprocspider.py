@@ -19,20 +19,12 @@ from scrapy.selector import Selector
 class PCSCProcSpider(scrapy.Spider):
     name = 'pcscprocspider' #use this for crawl
     allowed_domains = ['https://sites.google.com']
-<<<<<<< HEAD
-    start_urls=['https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2012/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014/',
-#                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2015/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016/',
-=======
     start_urls=[
 #		 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2012/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2015/',
->>>>>>> 1881b789c0c408ad99be8b6d568cdbbc4abb207c
                 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017']
     
     #counter
