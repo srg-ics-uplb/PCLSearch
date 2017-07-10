@@ -13,10 +13,12 @@ This project utilizes docker and docker-compose. Five containers are used:
 Setup development environment:
 
 `$./rebuild-all.sh`
+
 `$./start-all.sh`
 
 Cleanup:
 
 `$./stop-all.sh`
+
 `$./remove-all.sh`
 
