@@ -9,6 +9,7 @@
 
 import scrapy
 import requests
+import sys
 
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.linkextractors import LinkExtractor
@@ -112,8 +113,11 @@ class PCSCProcSpider(scrapy.Spider):
 
 
     def extract_paper_headers(path_name):
-        url = 'http://grobid:8080/processHeaderDocument'
-        files = {'input':open(path_name,'rb')}
-        r = requests.post(url,files=files)
-        print r.text
+        try:
+            url = 'http://grobid:8080/processHeaderDocument'
+            files = {'input':open(path_name,'rb')}
+            r = requests.post(url,files=files)
+            print r.text
+        except Exception:
+            sys.exc_clear()
 
