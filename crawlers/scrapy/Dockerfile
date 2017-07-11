@@ -12,7 +12,7 @@ RUN apt-get install -qy python python-dev python-distribute python-pip ipython a
 
 ## Scraping
 RUN pip install --upgrade pip
-RUN pip install beautifulsoup4 requests 
+RUN pip install beautifulsoup4 requests pymongo==3.4.0 
 RUN apt-get install -qy libffi-dev libxml2-dev libxslt-dev lib32z1-dev libssl-dev
 
 ## Scrapy
