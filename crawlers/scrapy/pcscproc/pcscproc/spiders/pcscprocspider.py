@@ -152,7 +152,7 @@ class PCSCProcSpider(scrapy.Spider):
 
             print title.encode('utf-8')
             print authors.encode('utf-8')
-            print abstract.encode('utf-8')
+            #print abstract.encode('utf-8')
             
             client = MongoClient('database:27017')
             db = client.pclsearch
