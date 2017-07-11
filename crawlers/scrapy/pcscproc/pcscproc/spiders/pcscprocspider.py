@@ -11,6 +11,8 @@ import scrapy
 import requests
 import sys
 from pymongo import MongoClient
+import xml.etree.ElementTree as ET
+
 
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.linkextractors import LinkExtractor
@@ -77,6 +79,7 @@ class PCSCProcSpider(scrapy.Spider):
             self.i = self.i+1
 
         index_file.close()
+
     def direct_download(url, destination):
         r = requests.get(url, stream=True)
         with open(destination, 'wb') as fd:
@@ -114,11 +117,42 @@ class PCSCProcSpider(scrapy.Spider):
 
 
     def extract_paper_headers(docid,path_name):
-        try:
+#        try:
             url = 'http://grobid:8080/processHeaderDocument'
             files = {'input':open(path_name,'rb')}
             r = requests.post(url,files=files)
             print r.text
+
+            root = ET.fromstring(r.text)
+            header = root[0]
+            filedesc = header[1]
+            profiledesc = header[2]
+
+            analytic = filedesc[2][0][0]
+
+            authors=[]
+            emails=[]
+
+            for c1 in analytic:
+                if 'author' in c1.tag:
+#                    for c2 in c1:
+#                        if 'persName' in c2.tag:
+#                            first_name = c2[0].text
+#                            last_name = c2[1].text
+#                            authors.append(first_name+" "+last_name)
+#                        if 'email' in c2.tag:
+#                            email=c2.text
+#                            emails.append(email)
+                     pass
+                else:
+                    title=c1.text
+            a = profiledesc[0]
+            abstract= a[0].text
+
+            print "TITLE: " + title+"\n"
+            print "ABSTRACT:" + abstract+"\n"
+            print authors
+            #print emails
 
             client = MongoClient('database:27017')
             db = client.pclsearch
@@ -128,9 +162,9 @@ class PCSCProcSpider(scrapy.Spider):
                     "age":  "37"
                 })
 
-        except Exception:
-            unprocessed = open("unproc.txt","a+")
-            unprocessed.write(docid+","+path_name+"\n")
-            unprocessed.close()
-            sys.exc_clear()
+ #       except Exception:
+ #           unprocessed = open("unproc.txt","a+")
+ #           unprocessed.write(docid+","+path_name+"\n")
+ #           unprocessed.close()
+ #           sys.exc_clear()
 
