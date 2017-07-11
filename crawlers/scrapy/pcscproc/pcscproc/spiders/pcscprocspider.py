@@ -71,7 +71,7 @@ class PCSCProcSpider(scrapy.Spider):
             path_name = pdf_dir+str(self.i)+".pdf"
             download_file_from_google_drive(docid,path_name)		          
             index_file.write(tmp +","+path_name+"\n")
-            extract_paper_headers(path_name)
+            extract_paper_headers(docid, path_name)
 
             self.i = self.i+1
 
@@ -112,12 +112,15 @@ class PCSCProcSpider(scrapy.Spider):
         	    f.write(chunk)
 
 
-    def extract_paper_headers(path_name):
+    def extract_paper_headers(docid,path_name):
         try:
             url = 'http://grobid:8080/processHeaderDocument'
             files = {'input':open(path_name,'rb')}
             r = requests.post(url,files=files)
             print r.text
         except Exception:
+            unprocessed = open("unproc.txt","a+")
+            unprocessed.write(docid+","+path_name+"\n")
+            unprocessed.close()
             sys.exc_clear()
 
