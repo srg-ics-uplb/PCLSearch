@@ -124,17 +124,22 @@ class PCSCProcSpider(scrapy.Spider):
             print r.text
 
             root = ET.fromstring(r.text)
-            header = root[0]
-            filedesc = header[1]
-            profiledesc = header[2]
 
-            analytic = filedesc[2][0][0]
+            for node in root.iter('fileDesc'):
+                print node.tag, node.attrib
 
-            authors=[]
-            emails=[]
 
-            for c1 in analytic:
-                if 'author' in c1.tag:
+#            header = root[0]
+#            filedesc = header[1]
+#            profiledesc = header[2]
+
+#            analytic = filedesc[2][0][0]
+
+#            authors=[]
+#            emails=[]
+
+#            for c1 in analytic:
+#                if 'author' in c1.tag:
 #                    for c2 in c1:
 #                        if 'persName' in c2.tag:
 #                            first_name = c2[0].text
@@ -143,15 +148,15 @@ class PCSCProcSpider(scrapy.Spider):
 #                        if 'email' in c2.tag:
 #                            email=c2.text
 #                            emails.append(email)
-                     pass
-                else:
-                    title=c1.text
-            a = profiledesc[0]
-            abstract= a[0].text
+#                     pass
+#                else:
+#                    title=c1.text
+#            a = profiledesc[0]
+#            abstract= a[0].text
 
-            print "TITLE: " + title+"\n"
-            print "ABSTRACT:" + abstract+"\n"
-            print authors
+#            print "TITLE: " + title+"\n"
+#            print "ABSTRACT:" + abstract+"\n"
+#            print authors
             #print emails
 
             client = MongoClient('database:27017')
