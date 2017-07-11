@@ -146,7 +146,8 @@ class PCSCProcSpider(scrapy.Spider):
                     for forename in persName.findall('.//{http://www.tei-c.org/ns/1.0}forename'):
                         author_name=author_name+" "+forename.text
                     surname = persName.find('{http://www.tei-c.org/ns/1.0}surname')        
-                    author_name=author_name+" "+surname.text
+                    if surname is not None:
+                        author_name=author_name+" "+surname.text
                     authors.append(author_name)
 
             print title
