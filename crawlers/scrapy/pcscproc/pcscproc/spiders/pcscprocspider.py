@@ -150,9 +150,9 @@ class PCSCProcSpider(scrapy.Spider):
                         author_name=author_name+" "+surname.text
                     authors.append(author_name)
 
-            print title
-            print authors
-            print abstract
+            print title.encode('utf-8')
+            print authors.encode('utf-8')
+            print abstract.encode('utf-8')
             
             client = MongoClient('database:27017')
             db = client.pclsearch
