@@ -125,8 +125,8 @@ class PCSCProcSpider(scrapy.Spider):
 
             root = ET.fromstring(r.text.encode('utf-8'))
 
-            title="notitle"
-            abstract="noabstract"
+            title=u"notitle"
+            abstract=u"noabstract"
             authors=[]
 
             for node in root.iter():
@@ -150,9 +150,9 @@ class PCSCProcSpider(scrapy.Spider):
                         author_name=author_name+" "+surname.text
                     authors.append(author_name)
 
-            print title.encode('utf-8')
-            print authors.encode('utf-8')
-            #print abstract.encode('utf-8')
+            print title
+            print authors
+            print abstract.encode('ascii','ignore')
             
             client = MongoClient('database:27017')
             db = client.pclsearch
