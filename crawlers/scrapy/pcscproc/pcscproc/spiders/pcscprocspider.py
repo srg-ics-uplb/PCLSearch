@@ -121,44 +121,38 @@ class PCSCProcSpider(scrapy.Spider):
             url = 'http://grobid:8080/processHeaderDocument'
             files = {'input':open(path_name,'rb')}
             r = requests.post(url,files=files)
-            print r.text
+            print r.text.encode('utf-8')
 
-            root = ET.fromstring(r.text)
+            root = ET.fromstring(r.text.encode('utf-8'))
 
-            for node in root.iter('fileDesc'):
-                print node.tag, node.attrib
+            title="notitle"
+            abstract="noabstract"
+            authors=[]
 
+            for node in root.iter():
+                #print str(node.tag)+"=="+ str(node.attrib)
+                if str(node.tag) == '{http://www.tei-c.org/ns/1.0}titleStmt':
+                    t = node.find('{http://www.tei-c.org/ns/1.0}title') 
+                    if t is not None:
+                        title=t.text
+                elif str(node.tag) == '{http://www.tei-c.org/ns/1.0}abstract':
+                    p=node.find('{http://www.tei-c.org/ns/1.0}p');
+                    if p is not None:
+                        abstract=p.text
 
-#            header = root[0]
-#            filedesc = header[1]
-#            profiledesc = header[2]
+            for author in root.findall('.//{http://www.tei-c.org/ns/1.0}author'):
+                author_name=""
+                for persName in author.findall('.//{http://www.tei-c.org/ns/1.0}persName'):
+                    for forename in persName.findall('.//{http://www.tei-c.org/ns/1.0}forename'):
+                        author_name=author_name+" "+forename.text
+                    surname = persName.find('{http://www.tei-c.org/ns/1.0}surname')        
+                    author_name=author_name+" "+surname.text
+                    authors.append(author_name)
 
-#            analytic = filedesc[2][0][0]
-
-#            authors=[]
-#            emails=[]
-
-#            for c1 in analytic:
-#                if 'author' in c1.tag:
-#                    for c2 in c1:
-#                        if 'persName' in c2.tag:
-#                            first_name = c2[0].text
-#                            last_name = c2[1].text
-#                            authors.append(first_name+" "+last_name)
-#                        if 'email' in c2.tag:
-#                            email=c2.text
-#                            emails.append(email)
-#                     pass
-#                else:
-#                    title=c1.text
-#            a = profiledesc[0]
-#            abstract= a[0].text
-
-#            print "TITLE: " + title+"\n"
-#            print "ABSTRACT:" + abstract+"\n"
-#            print authors
-            #print emails
-
+            print title
+            print authors
+            print abstract
+            
             client = MongoClient('database:27017')
             db = client.pclsearch
             db.User.insert_one(
