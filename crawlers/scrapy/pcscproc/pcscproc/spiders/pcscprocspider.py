@@ -35,6 +35,7 @@ class PCSCProcSpider(scrapy.Spider):
     global get_confirm_token
     global save_response_content
     global direct_download
+    global extract_paper_headers
 
     def parse(self, response):
         extractor = LinkExtractor(allow_domains=['drive.google.com','docs.google.com'])
@@ -66,9 +67,10 @@ class PCSCProcSpider(scrapy.Spider):
 
             print docid
             
-            download_file_from_google_drive(docid,pdf_dir+str(self.i)+".pdf")		          
-
-            index_file.write(tmp +","+str(self.i)+".pdf\n")
+            path_name = pdf_dir+str(self.i)+".pdf"
+            download_file_from_google_drive(docid,path_name)		          
+            index_file.write(tmp +","+path_name+"\n")
+            extract_paper_headers(path_name)
 
             self.i = self.i+1
 
@@ -107,4 +109,11 @@ class PCSCProcSpider(scrapy.Spider):
             for chunk in response.iter_content(CHUNK_SIZE):
 	        if chunk: # filter out keep-alive new chunks
         	    f.write(chunk)
+
+
+    def extract_paper_headers(path_name):
+        url = 'http://grobid:8080/processHeaderDocument'
+        files = {'input':open(path_name,'rb')}
+        r = requests.post(url,files=files)
+        print r.text
 

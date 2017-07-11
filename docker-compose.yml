@@ -29,6 +29,9 @@ services:
     stdin_open: true
     ports:
       - "7070:80" # specify port forewarding
+    links:
+      - grobid
+      - database
 
   grobid: # 
     image: lfoppiano/grobid:0.4.1
