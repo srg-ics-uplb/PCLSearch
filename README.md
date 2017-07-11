@@ -26,3 +26,5 @@ Cleanup:
 To get a shell to one of the containers:
 
 `$sudo docker exec -it <container> /bin/bash`
+
+The application is accessible at http://127.0.0.1:4200
