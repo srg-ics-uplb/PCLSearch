@@ -10,6 +10,7 @@
 import scrapy
 import requests
 import sys
+from pymongo import MongoClient
 
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.linkextractors import LinkExtractor
@@ -71,7 +72,7 @@ class PCSCProcSpider(scrapy.Spider):
             path_name = pdf_dir+str(self.i)+".pdf"
             download_file_from_google_drive(docid,path_name)		          
             index_file.write(tmp +","+path_name+"\n")
-            extract_paper_headers(docid, path_name)
+            extract_paper_headers(tmp, path_name)
 
             self.i = self.i+1
 
@@ -118,6 +119,15 @@ class PCSCProcSpider(scrapy.Spider):
             files = {'input':open(path_name,'rb')}
             r = requests.post(url,files=files)
             print r.text
+
+            client = MongoClient('database:27017')
+            db = client.pclsearch
+            db.User.insert_one(
+                {
+                    "name": "JACH",
+                    "age":  "37"
+                })
+
         except Exception:
             unprocessed = open("unproc.txt","a+")
             unprocessed.write(docid+","+path_name+"\n")
