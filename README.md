@@ -32,3 +32,5 @@ To exit from shell
 `Ctrl+p, Ctrl+q`
 
 The application is accessible at http://127.0.0.1:4200
+
+Scraped PDFs are accessible at http://127.0.0.1:7070/pdfs
