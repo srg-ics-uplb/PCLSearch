@@ -16,31 +16,31 @@ export class AppComponent implements OnInit {
   API = 'http://localhost:3000';
 
   // Declare empty list of people
-  people: any[] = [];
+  articles: any[] = [];
 
   constructor(private http: Http) {}
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
-    this.getAllPeople();
+    this.getAllArticles();
   }
 
-  // Add one person to the API
-  addPerson(name, age) {
-    this.http.post(`${this.API}/users`, {name, age})
+  // Add one article to the API
+  addArticle(title, url) {
+    this.http.post(`${this.API}/articles`, {title, url})
       .map(res => res.json())
       .subscribe(() => {
-        this.getAllPeople();
+        this.getAllArticles();
       }, error => console.log(error))
   }
 
   // Get all users from the API
-  getAllPeople() {
-    this.http.get(`${this.API}/users`)
+  getAllArticles() {
+    this.http.get(`${this.API}/articles`)
       .map(res => res.json())
-      .subscribe(people => {
-        console.log(people)
-        this.people = people
+      .subscribe(articles => {
+        console.log(articles)
+        this.articles = articles
       }, error => console.log(error))
   }
 }

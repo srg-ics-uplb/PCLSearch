@@ -31,7 +31,7 @@ services:
       - "7070:80" # specify port forewarding
     links:
       - grobid
-      - database
+      - express
 
   grobid: # 
     image: lfoppiano/grobid:0.4.1

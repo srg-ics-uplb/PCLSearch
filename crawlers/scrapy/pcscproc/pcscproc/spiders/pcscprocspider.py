@@ -150,17 +150,14 @@ class PCSCProcSpider(scrapy.Spider):
                         author_name=author_name+" "+surname.text
                     authors.append(author_name)
 
+            #print extracted data data
             print title
             print authors
             print abstract.encode('ascii','ignore')
             
-            client = MongoClient('database:27017')
-            db = client.pclsearch
-            db.User.insert_one(
-                {
-                    "name": "JACH",
-                    "age":  "37"
-                })
+            inserter = 'http://express:3000/articles'
+            r = requests.post(inserter,{'title':title,'url':docid}) 
+            print r.content
 
  #       except Exception:
  #           unprocessed = open("unproc.txt","a+")

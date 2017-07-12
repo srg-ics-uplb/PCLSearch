@@ -1,27 +1,27 @@
 <nav class="navbar navbar-light bg-faded">
   <div class="container">
-    <a class="navbar-brand" href="#">Mean Docker</a>
+    <a class="navbar-brand" href="#">Philippine Computing Literature Search Engine</a>
   </div>
 </nav>
 <div class="container">
   <div [style.margin-top.px]="10" class="row">
-    <h3>Add new person</h3>
+    <h3>Add new article</h3>
     <form class="form-inline">
       <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" #name>
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" #title>
       </div>
       <div class="form-group">
-        <label for="age">Age</label>
-        <input type="number" class="form-control" id="age" #age>
+        <label for="url">URL</label>
+        <input type="text" class="form-control" id="url" #url>
       </div>
-      <button type="button" (click)="addPerson(name.value, age.value)" class="btn btn-primary">Add person</button>
+      <button type="button" (click)="addArticle(title.value, url.value)" class="btn btn-primary">Add article</button>
     </form>
   </div>
   <div [style.margin-top.px]="10" class="row">
-    <h3>People</h3>
-    <div [style.margin-right.px]="10" class="card card-block col-md-3" *ngFor="let person of people">
-      <h4 class="card-title">{{person.name}}  {{person.age}}</h4>
+    <h3>Articles</h3>
+    <div [style.margin-right.px]="10" class="card card-block col-md-3" *ngFor="let article of articles">
+      <h6 class="card-title"><a href="{{article.url}}">{{article.title}}</a></h6>
     </div>
   </div>
 </div>
