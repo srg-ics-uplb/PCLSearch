@@ -118,12 +118,13 @@ class PCSCProcSpider(scrapy.Spider):
 
     def extract_paper_headers(docid,path_name):
 #        try:
-            url = 'http://grobid:8080/processHeaderDocument'
+            #url = 'http://grobid:8080/processHeaderDocument'
+            url = 'http://grobid:8080/processFulltextDocument'
             files = {'input':open(path_name,'rb')}
             r = requests.post(url,files=files)
-            print r.text.encode('utf-8')
+            print r.text.encode('ascii','ignore')
 
-            root = ET.fromstring(r.text.encode('utf-8'))
+            root = ET.fromstring(r.text.encode('ascii','ignore'))
 
             title=u"notitle"
             abstract=u"noabstract"
@@ -135,32 +136,32 @@ class PCSCProcSpider(scrapy.Spider):
                     t = node.find('{http://www.tei-c.org/ns/1.0}title') 
                     if t is not None:
                         title=t.text
-                elif str(node.tag) == '{http://www.tei-c.org/ns/1.0}abstract':
-                    p=node.find('{http://www.tei-c.org/ns/1.0}p');
-                    if p is not None:
-                        abstract=p.text
+            #    elif str(node.tag) == '{http://www.tei-c.org/ns/1.0}abstract':
+            #        p=node.find('{http://www.tei-c.org/ns/1.0}p');
+            #        if p is not None:
+            #            abstract=p.text
 
-            for author in root.findall('.//{http://www.tei-c.org/ns/1.0}author'):
-                author_name=""
-                for persName in author.findall('.//{http://www.tei-c.org/ns/1.0}persName'):
-                    for forename in persName.findall('.//{http://www.tei-c.org/ns/1.0}forename'):
-                        author_name=author_name+" "+forename.text
-                    surname = persName.find('{http://www.tei-c.org/ns/1.0}surname')        
-                    if surname is not None:
-                        author_name=author_name+" "+surname.text
-                    authors.append(author_name)
+            #for author in root.findall('.//{http://www.tei-c.org/ns/1.0}author'):
+            #    author_name=""
+            #    for persName in author.findall('.//{http://www.tei-c.org/ns/1.0}persName'):
+            #        for forename in persName.findall('.//{http://www.tei-c.org/ns/1.0}forename'):
+            #            author_name=author_name+" "+forename.text
+            #        surname = persName.find('{http://www.tei-c.org/ns/1.0}surname')        
+            #        if surname is not None:
+            #            author_name=author_name+" "+surname.text
+            #        authors.append(author_name)
 
             #print extracted data data
-            print title
-            print authors
-            print abstract.encode('ascii','ignore')
+            #print title
+            #print authors
+            #print abstract.encode('ascii','ignore')
 
             if title is None:
                 title="(Untitled)"
             
             inserter = 'http://express:3000/articles'
-            r = requests.post(inserter,{'title':title,'url':docid}) 
-            print r.content
+            r = requests.post(inserter,{'title':title,'url':docid,'xml':r}) 
+            #print r.content
 
  #       except Exception:
  #           unprocessed = open("unproc.txt","a+")

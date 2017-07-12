@@ -12,7 +12,8 @@ mongoose.connect(dbHost);
 // create mongoose schema
 const articleSchema = new mongoose.Schema({
   title: String,
-  url: String
+  url: String,
+  xml: String
 });
 
 // create mongoose model
@@ -42,10 +43,11 @@ router.get('/articles/:id', (req, res) => {
 });
 
 /* Create an article. */
-router.post('/articles', (req, res) => {
+router.post('/articles', (req, res,xml) => {
 	let article = new Article({
 		title: req.body.title,
-		url: req.body.url
+		url: req.body.url,
+        xml: req.body.xml
 	});
 
 	article.save(error => {
