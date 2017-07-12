@@ -154,6 +154,9 @@ class PCSCProcSpider(scrapy.Spider):
             print title
             print authors
             print abstract.encode('ascii','ignore')
+
+            if title is None:
+                title="(Untitled)"
             
             inserter = 'http://express:3000/articles'
             r = requests.post(inserter,{'title':title,'url':docid}) 
