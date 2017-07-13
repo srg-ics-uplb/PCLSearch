@@ -1,0 +1,39 @@
+version: '2' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+  angular: # name of the first service
+    build: angular-client # specify the directory of the Dockerfile
+    ports:
+      - "4200:4200" # specify port forewarding
+    volumes:
+      - /home/jachermocilla/Sources/mean-docker/angular-client:/opt/dev
+
+  express: #name of the second service
+    build: express-server # specify the directory of the Dockerfile
+    ports:
+      - "3000:3000" #specify ports forewarding
+    volumes:
+      - /home/jachermocilla/Sources/mean-docker/express-server:/opt/dev
+    links:
+      - database
+
+  database: # name of the third service
+    image: mongo # specify image to build container from
+    ports:
+      - "27017:27017" # specify port forewarding
+  
+  scrapy: # name of the third service
+    build: crawlers/scrapy  # specify image to build container from
+    tty: true
+    stdin_open: true
+    ports:
+      - "7070:80" # specify port forewarding
+    links:
+      - grobid
+      - express
+
+  grobid: # 
+    image: lfoppiano/grobid:0.4.1
+    ports:
+      - "9090:8080" # specify port forewarding

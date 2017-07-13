@@ -22,14 +22,17 @@ from scrapy.selector import Selector
 
 class PCSCProcSpider(scrapy.Spider):
     name = 'pcscprocspider' #use this for crawl
-    allowed_domains = ['https://sites.google.com']
-    start_urls=[
+    allowed_domains =['sites.google.com']
+    handle_httpstatus_list = [400]
+    start_urls= [
+                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/Home/pcsc-2007/2007-contributed-papers/'
 #		 'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2012/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016/',
 #                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2015/',
-                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017']
+#                'https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017'
+                ]
     
     #counter
 
@@ -42,8 +45,12 @@ class PCSCProcSpider(scrapy.Spider):
     global extract_paper_headers
 
     def parse(self, response):
-        extractor = LinkExtractor(allow_domains=['drive.google.com','docs.google.com'])
-        links = extractor.extract_links(response)
+        extractor = LinkExtractor(allow_domains=['drive.google.com','docs.google.com','sites.google.com','googlegroups.com'])
+        #links = extractor.extract_links(response)
+        print response.body
+        print response.url
+
+        links = response.xpath("//div [@class='sites-attachments-name']/a/@href").extract()
 
         pdf_dir="/var/www/html/pdfs/"
 
@@ -51,12 +58,13 @@ class PCSCProcSpider(scrapy.Spider):
 
         for link in links:
             
-            tmp=str(link.url)
-            print "URL: " + tmp
+            #tmp=str(link.url)
+            tmp=str(link)
+            print "******URL: " + tmp
             
-            if ".pdf?att" in tmp:
+            if "pcsc2009" in tmp:
                 print "DIRECT DOWNLOAD"
-                direct_download(link.url,str(self.i))          
+                #direct_download(link.url,str(self.i))          
                 break
             elif "open" in tmp:
                 data=tmp.split('=')
@@ -65,16 +73,16 @@ class PCSCProcSpider(scrapy.Spider):
             elif "viewer" in tmp:
                 data=tmp.split('=')
                 docid=data[3]
-            else:
-                data=tmp.split('/')
-                docid=data[5]
+#            else:
+#                data=tmp.split('/')
+#                docid=data[5]
 
-            print docid
+#            print docid
             
-            path_name = pdf_dir+str(self.i)+".pdf"
-            download_file_from_google_drive(docid,path_name)		          
-            index_file.write(tmp +","+path_name+"\n")
-            extract_paper_headers(tmp, path_name)
+            #path_name = pdf_dir+str(self.i)+".pdf"
+            #download_file_from_google_drive(docid,path_name)		          
+            #index_file.write(tmp +","+path_name+"\n")
+            #extract_paper_headers(tmp, path_name)
 
             self.i = self.i+1
 
@@ -118,8 +126,8 @@ class PCSCProcSpider(scrapy.Spider):
 
     def extract_paper_headers(docid,path_name):
 #        try:
-            #url = 'http://grobid:8080/processHeaderDocument'
-            url = 'http://grobid:8080/processFulltextDocument'
+            url = 'http://grobid:8080/processHeaderDocument'
+            #url = 'http://grobid:8080/processFulltextDocument'
             files = {'input':open(path_name,'rb')}
             r = requests.post(url,files=files)
             print r.text.encode('ascii','ignore')

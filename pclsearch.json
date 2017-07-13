@@ -1,0 +1,4 @@
+{
+    "pdf_folder":".",
+    "grobid_api_endpoint":"http://localhost:9090"
+}
