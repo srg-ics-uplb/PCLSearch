@@ -1,13 +1,18 @@
 {
     "pclsearch":{
+        "version":"0.0.1",
         "pdfs_root":"."
     },
-    "crawler":{
-
+    "sources":{
+        "conference":{
+            "pcsc": {
+                "2017": {
+                    "start_url":"https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017",
+                    "spider_class":"RedSpider"
+                }
+            }
+        }
     },
-    "downloader":{
-    },
-
     "extractor":{
         "grobid_api_endpoint":"http://localhost:9090"
     }
