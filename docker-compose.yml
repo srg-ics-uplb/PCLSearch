@@ -42,6 +42,8 @@ services:
     links:
       - grobid
       - express
+    volumes:
+      - /home/jachermocilla/Sources/PCLSearch/preprocessing:/opt/dev
 
   grobid: # 
     image: lfoppiano/grobid:0.4.1
