@@ -1,4 +1,14 @@
 {
-    "pdf_folder":".",
-    "grobid_api_endpoint":"http://localhost:9090"
+    "pclsearch":{
+        "pdfs_root":"."
+    },
+    "crawler":{
+
+    },
+    "downloader":{
+    },
+
+    "extractor":{
+        "grobid_api_endpoint":"http://localhost:9090"
+    }
 }

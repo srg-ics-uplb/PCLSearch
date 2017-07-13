@@ -20,7 +20,7 @@ class PCLSearchExtractor:
 with open('../../pclsearch.json') as config_file:
     config = json.load(config_file)
 
-extractor = PCLSearchExtractor(config['grobid_api_endpoint'])
+extractor = PCLSearchExtractor(config['extractor']['grobid_api_endpoint'])
 #extractor.extract("test.pdf","processHeaderDocument") 
 extractor.extract("test.pdf","processFulltextDocument") 
         

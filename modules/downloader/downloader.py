@@ -41,6 +41,6 @@ class GoogleDriveDownloader(PCLSearchDownloader):
 
 with open('../../pclsearch.json') as config_file:
     config = json.load(config_file)
-print config['pdf_folder']
+print config['pclsearch']['pdfs_root']
 downloader = GoogleDriveDownloader()
-downloader.download("https://drive.google.com/file/d/0BxI8feCZhWsobHdYSWVJX0h5WGM/view",config['pdf_folder']+"/test.pdf")
+downloader.download("https://drive.google.com/file/d/0BxI8feCZhWsobHdYSWVJX0h5WGM/view",config['pclsearch']['pdfs_root']+"/test.pdf")
