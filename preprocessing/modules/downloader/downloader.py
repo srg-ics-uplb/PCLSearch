@@ -67,6 +67,10 @@ def download_all():
         #source may require a different downloader later
         downloader=GoogleDriveDownloader()
 
+        url_path_map = {}
+        url_path_map['article'] = {}
+
+
         download_path=config['pclsearch']['pdfs_root']+"/"+source_type+"/"+source_name+"/"+source_year
         urls = download_path+"/"+source_name+"-"+source_year+".url"
         #print urls
@@ -79,12 +83,8 @@ def download_all():
             else:
                 #print line
                 downloader.download(line,download_path+"/"+str(i)+".pdf")
+        
          
 
 
 download_all()
-#with open('../../pclsearch.json') as config_file:
-#    config = json.load(config_file)
-#print config['pclsearch']['pdfs_root']
-#downloader = GoogleDriveDownloader()
-#downloader.download("https://drive.google.com/file/d/0BxI8feCZhWsobHdYSWVJX0h5WGM/view",config['pclsearch']['pdfs_root']+"/test.pdf")
