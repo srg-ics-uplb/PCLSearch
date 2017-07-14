@@ -13,7 +13,7 @@ class PCLSearchExtractor:
     def __init__(self, api_ep):
         self.api_endpoint = api_ep
         
-    def extract(self,path,scope):
+    def extract(self,url,path,scope):
         files = {'input':open(path,'rb')} 
         response = requests.post(self.api_endpoint+"/"+scope,files=files)
         #print response.text.encode('ascii','ignore')
@@ -52,7 +52,7 @@ class PCLSearchExtractor:
             title="(Untitled)"
             
         inserter = 'http://express:3000/articles'
-        response = requests.post(inserter,{'title':title,'url':path,'xml':response}) 
+        response = requests.post(inserter,{'title':title,'url':url,'xml':response}) 
 
 
 def extract_all():
@@ -74,20 +74,31 @@ def extract_all():
 
         download_path=config['pclsearch']['pdfs_root']+"/"+source_type+"/"+source_name+"/"+source_year
         print download_path
-        
-        for f in os.listdir(download_path):
-            if f.endswith(".pdf"):
-                fpath=os.path.join(download_path,f)
-                print "###Processing.."+fpath
+
+
+        with open(download_path+"/"+source_name+"-"+source_year+".map") as json_file:  
+            data = json.load(json_file)
+            for p in data['articles']:
                 try:
-                    extractor.extract(fpath,"processHeaderDocument") 
-                    #extractor.extract(fpath,"processFulltextDocument") 
-                    #extractor.extract(fpath,"processReferences") 
-                    print "SUCCESS"
+                    extractor.extract(p['url'],p['path'],"processHeaderDocument") 
                 except Exception:
                     print "FAILED"
                     unprocessed.write(fpath+"\n")
                     sys.exc_clear()
+        
+#        for f in os.listdir(download_path):
+#            if f.endswith(".pdf"):
+#                fpath=os.path.join(download_path,f)
+#                print "###Processing.."+fpath
+#                try:
+#                    extractor.extract(fpath,"processHeaderDocument") 
+#                    #extractor.extract(fpath,"processFulltextDocument") 
+#                    #extractor.extract(fpath,"processReferences") 
+#                    print "SUCCESS"
+#                except Exception:
+#                    print "FAILED"
+#                    unprocessed.write(fpath+"\n")
+#                    sys.exc_clear()
 
     unprocessed.close()
         
