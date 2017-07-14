@@ -87,7 +87,7 @@ def download_all():
                 #print url_path_map
 
         with open(download_path+"/"+source_name+"-"+source_year+".map",'w') as outfile:  
-            json.dump(data, outfile)
+            json.dump(url_path_map, outfile)
         
          
 
