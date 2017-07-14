@@ -83,7 +83,7 @@ def extract_all():
                     extractor.extract(p['url'],p['path'],"processHeaderDocument") 
                 except Exception:
                     print "FAILED"
-                    unprocessed.write(fpath+"\n")
+                    unprocessed.write(p['path']+"\n")
                     sys.exc_clear()
         
 #        for f in os.listdir(download_path):
