@@ -94,12 +94,13 @@ def extract_all():
         with open(download_path+"/"+source_name+"-"+source_year+".map") as json_file:  
             data = json.load(json_file)
             for p in data['articles']:
-#                try:
-                extractor.extract(p['url'],p['path']) 
-#                except Exception:
-#                    print "FAILED"
-#                    unprocessed.write(p['path']+"\n")
-#                    sys.exc_clear()
+                try:
+                    extractor.extract(p['url'],p['path']) 
+                    print "SUCCESS"
+                except Exception:
+                    print "FAILED"
+                    unprocessed.write(p['path']+"\n")
+                    sys.exc_clear()
         
 #        for f in os.listdir(download_path):
 #            if f.endswith(".pdf"):
