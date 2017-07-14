@@ -8,16 +8,20 @@ from scrapy.selector import Selector
 
 from pprint import pprint
 
+import os
+
 class RedSpider(scrapy.Spider):
     name = "RedSpider"
     allowed_domains =['sites.google.com']
     start_urls=[]
+    download_path=''
 
     def parse(self, response):
         extractor = LinkExtractor(allow_domains=['drive.google.com','docs.google.com','sites.google.com'])
         links = extractor.extract_links(response)
         filename=response.url.split("/")
-        f = open(filename[6]+".url","w+")
+        print "######"+self.download_path
+        f = open(self.download_path,"w+")
         f.write("=== "+response.url+"\n")
         for link in links:
             if 'drive.google' in link.url:
@@ -38,17 +42,25 @@ def crawl_all():
     sources = config['sources']
         
     process = CrawlerProcess({
-        'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
+        'USER_AGENT': '/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
     })
                 
     for source in sources:
-        year=source['year']
+        source_type=source['type']
+        source_name=source['name']
+        source_year=source['year']
         spider_class=source['spider_class']
         start_url=source['start_url']
 
+        download_path=config['pclsearch']['pdfs_root']+"/"+source_type+"/"+source_name+"/"+source_year
+        print "*******"+download_path
+
+        if not os.path.exists(download_path):
+            os.makedirs(download_path)
+
         start_urls=[]
         start_urls.append(start_url)
-        process.crawl(eval(spider_class),start_urls=start_urls)
+        process.crawl(eval(spider_class),start_urls=start_urls,download_path=download_path+"/"+source_name+"-"+source_year+".url")
 
 
     process.start() # the script will block here until the crawling is finished
