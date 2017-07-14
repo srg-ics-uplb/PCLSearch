@@ -23,16 +23,6 @@ services:
     ports:
       - "27017:27017" # specify port forewarding
   
-#  scrapy: # name of the third service
-#    build: crawlers/scrapy  # specify image to build container from
-#    tty: true
-#    stdin_open: true
-#    ports:
-#      - "7070:80" # specify port forewarding
-#    links:
-#      - grobid
-#      - express
-  
   preprocessing: # name of the third service
     build: preprocessing  # specify image to build container from
     tty: true

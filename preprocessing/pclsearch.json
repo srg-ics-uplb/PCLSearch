@@ -41,6 +41,6 @@
                     }
     ],
     "extractor":{
-        "grobid_api_endpoint":"http://localhost:9090"
+        "grobid_api_endpoint":"http://grobid:8080"
     }
 }
