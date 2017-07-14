@@ -22,9 +22,11 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 
-RUN mkdir -p /var/www/html/pdfs
+#RUN mkdir -p /var/www/html/pdfs
 
 EXPOSE 80
+
+RUN ln -s /opt/dev/pdfs /var/www/html/pdfs
 
 CMD /usr/sbin/apache2ctl -D FOREGROUND
 
