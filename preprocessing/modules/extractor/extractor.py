@@ -51,8 +51,8 @@ class PCLSearchExtractor:
         if title is None:
             title="(Untitled)"
             
-        #inserter = 'http://express:3000/articles'
-        #response = requests.post(inserter,{'title':title,'url':docid,'xml':r}) 
+        inserter = 'http://express:3000/articles'
+        response = requests.post(inserter,{'title':title,'url':path,'xml':response}) 
 
 
 def extract_all():
@@ -62,6 +62,8 @@ def extract_all():
     extractor = PCLSearchExtractor(config['extractor']['grobid_api_endpoint'])
 
     sources = config['sources']
+    
+    unprocessed = open("unproc.txt","w")
 
     for source in sources:
         source_type=source['type']
@@ -79,16 +81,14 @@ def extract_all():
                 print "###Processing.."+fpath
                 try:
                     extractor.extract(fpath,"processHeaderDocument") 
+                    #extractor.extract(fpath,"processFulltextDocument") 
+                    #extractor.extract(fpath,"processReferences") 
                     print "SUCCESS"
                 except Exception:
                     print "FAILED"
-                    unprocessed = open("unproc.txt","a+")
                     unprocessed.write(fpath+"\n")
-                    unprocessed.close()
                     sys.exc_clear()
 
-
-
-        #extractor.extract("test.pdf","processFulltextDocument") 
+    unprocessed.close()
         
 extract_all()

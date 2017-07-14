@@ -11,13 +11,26 @@ mongoose.connect(dbHost);
 
 // create mongoose schema
 const articleSchema = new mongoose.Schema({
+  id: mongoose.Schema.ObjectId,
   title: String,
   url: String,
-  xml: String
+  xml_headers: String,
+  xml_full: String,
+  xml_references: String,
+  authors: [ {type : mongoose.Schema.ObjectId, ref: 'Author'} ]
 });
+
+const authorSchema = new mongoose.Schema({
+  id: mongoose.Schema.ObjectId,
+  name: String,
+  email: String,
+  articles: [ {type : mongoose.Schema.ObjectId, ref: 'Article'}]
+});
+
 
 // create mongoose model
 const Article = mongoose.model('Article', articleSchema);
+const Author = mongoose.model('Author', authorSchema);
 
 /* GET api listing. */
 router.get('/', (req, res) => {
