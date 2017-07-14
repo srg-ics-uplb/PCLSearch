@@ -56,11 +56,13 @@ router.get('/articles/:id', (req, res) => {
 });
 
 /* Create an article. */
-router.post('/articles', (req, res,xml) => {
+router.post('/articles', (req, res) => {
 	let article = new Article({
 		title: req.body.title,
 		url: req.body.url,
-        xml: req.body.xml
+        xml_headers: req.body.xml_headers,
+        xml_full: req.body.xml_full,
+        xml_references: req.body.xml_references,
 	});
 
 	article.save(error => {

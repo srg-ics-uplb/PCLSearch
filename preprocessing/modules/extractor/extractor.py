@@ -13,11 +13,26 @@ class PCLSearchExtractor:
     def __init__(self, api_ep):
         self.api_endpoint = api_ep
         
-    def extract(self,url,path,scope):
-        files = {'input':open(path,'rb')} 
-        response = requests.post(self.api_endpoint+"/"+scope,files=files)
+    def extract(self,url,path):
+        header_ep = self.api_endpoint+"/processHeaderDocument"
+        full_ep = self.api_endpoint+"/processFulltextDocument"
+        references_ep = self.api_endpoint+"/processReferences"
+
+ 
+        files = {'input':open(path,'rb')}
+        response = requests.post(header_ep,files=files)
+        headers = response.text.encode('ascii','ignore')
+
+        files = {'input':open(path,'rb')}
+        response = requests.post(full_ep,files=files)
+        full = response.text.encode('ascii','ignore')
+
+        files = {'input':open(path,'rb')}
+        response = requests.post(references_ep,files=files)
+        references = response.text.encode('ascii','ignore')
+        
         #print response.text.encode('ascii','ignore')
-        root = ET.fromstring(response.text.encode('ascii','ignore'))
+        root = ET.fromstring(headers)
         title=u"notitle"
         abstract=u"noabstract"
         authors=[]
@@ -52,7 +67,7 @@ class PCLSearchExtractor:
             title="(Untitled)"
             
         inserter = 'http://express:3000/articles'
-        response = requests.post(inserter,{'title':title,'url':url,'xml':response}) 
+        response = requests.post(inserter,{'title':title,'url':url,'xml_headers':headers,'xml_full':full,'xml_references':references}) 
 
 
 def extract_all():
@@ -79,12 +94,12 @@ def extract_all():
         with open(download_path+"/"+source_name+"-"+source_year+".map") as json_file:  
             data = json.load(json_file)
             for p in data['articles']:
-                try:
-                    extractor.extract(p['url'],p['path'],"processHeaderDocument") 
-                except Exception:
-                    print "FAILED"
-                    unprocessed.write(p['path']+"\n")
-                    sys.exc_clear()
+#                try:
+                extractor.extract(p['url'],p['path']) 
+#                except Exception:
+#                    print "FAILED"
+#                    unprocessed.write(p['path']+"\n")
+#                    sys.exc_clear()
         
 #        for f in os.listdir(download_path):
 #            if f.endswith(".pdf"):
