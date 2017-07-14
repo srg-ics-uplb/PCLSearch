@@ -35,16 +35,16 @@ def crawl_all():
 
     pprint(config)
 
-    pcsc = config['sources']['conference']['pcsc']
+    sources = config['sources']
         
     process = CrawlerProcess({
         'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
     })
                 
-    for item in pcsc:
-        year=item['year']
-        spider_class=item['spider_class']
-        start_url=item['start_url']
+    for source in sources:
+        year=source['year']
+        spider_class=source['spider_class']
+        start_url=source['start_url']
 
         start_urls=[]
         start_urls.append(start_url)
