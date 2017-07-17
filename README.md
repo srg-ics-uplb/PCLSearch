@@ -7,7 +7,7 @@ This project utilizes docker and docker-compose. Five containers are used:
 2. 1 container for ExpressJS (REST API)
 3. 1 container for AngularJS (Client)
 4. 1 container for GROBID (Paper metadata extractor)
-5. 1 container for Scrapy (Web Crawler and PDF file server)
+5. 1 container for Preprocessing (Web Crawler,PDF file server. Injector)
 
 
 Setup development environment:
