@@ -25,6 +25,7 @@ const authorSchema = new mongoose.Schema({
   id: mongoose.Schema.ObjectId,
   name: String,
   email: String,
+  institution: String,
   articles: [ {type : mongoose.Schema.ObjectId, ref: 'Article'}]
 });
 
@@ -40,19 +41,33 @@ router.get('/', (req, res) => {
 
 /* GET all articles. */
 router.get('/articles', (req, res) => {
-	Article.find({}, (err, users) => {
+	Article.find({}, (err, articles) => {
 		if (err) res.status(500).send(error)
-
 		res.status(200).json(users);
+	});
+});
+
+/* GET all authors. */
+router.get('/authors', (req, res) => {
+	Author.find({}, (err, authors) => {
+		if (err) res.status(500).send(error)
+		res.status(200).json(authors);
 	});
 });
 
 /* GET one article. */
 router.get('/articles/:id', (req, res) => {
-	Article.findById(req.params.id, (err, users) => {
+	Article.findById(req.params.id, (err, articles) => {
 		if (err) res.status(500).send(error)
-
 		res.status(200).json(users);
+	});
+});
+
+/* GET one author. */
+router.get('/authors/:id', (req, res) => {
+	Author.findById(req.params.id, (err, authors) => {
+		if (err) res.status(500).send(error)
+		res.status(200).json(authors);
 	});
 });
 
@@ -61,6 +76,7 @@ router.post('/articles', (req, res) => {
 	let article = new Article({
 		title: req.body.title,
 		url: req.body.url,
+		url2: req.body.url2,
         xml_headers: req.body.xml_headers,
         xml_full: req.body.xml_full,
         xml_references: req.body.xml_references,
