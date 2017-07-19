@@ -5,6 +5,9 @@ import requests
 import sys
 import json
 
+import os
+import os.path
+
 class PCLSearchDownloader:
     def download(self,url,target_path):
         pass
@@ -82,9 +85,12 @@ def download_all():
                 continue
             else:
                 #print line
-                downloader.download(line,download_path+"/"+str(i)+".pdf")
+                if os.path.exists(download_path+"/"+str(i)+".pdf"):
+                    print ">>>Source in cache."
+                else:
+                    downloader.download(line,download_path+"/"+str(i)+".pdf")
                 url_path_map['articles'].append({"url":line,"path":download_path+"/"+str(i)+".pdf"})
-                #print url_path_map
+                 #print url_path_map
 
         with open(download_path+"/"+source_name+"-"+source_year+".map",'w') as outfile:  
             json.dump(url_path_map, outfile)

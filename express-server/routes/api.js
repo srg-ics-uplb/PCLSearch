@@ -14,6 +14,7 @@ const articleSchema = new mongoose.Schema({
   id: mongoose.Schema.ObjectId,
   title: String,
   url: String,
+  url2: String,
   xml_headers: String,
   xml_full: String,
   xml_references: String,

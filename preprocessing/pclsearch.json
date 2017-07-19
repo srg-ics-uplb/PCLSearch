@@ -1,7 +1,8 @@
 {
     "pclsearch":{
         "version":"0.0.1",
-        "pdfs_root":"/opt/dev/pdfs"
+        "pdfs_root":"/opt/dev/pdfs",
+        "check_cache":"True"
     },
     "sources": [ 
                     {   

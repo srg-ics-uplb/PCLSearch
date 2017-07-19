@@ -9,6 +9,8 @@ from scrapy.selector import Selector
 from pprint import pprint
 
 import os
+import os.path
+
 
 class RedSpider(scrapy.Spider):
     name = "RedSpider"
@@ -55,12 +57,16 @@ def crawl_all():
         download_path=config['pclsearch']['pdfs_root']+"/"+source_type+"/"+source_name+"/"+source_year
         print "*******"+download_path
 
-        if not os.path.exists(download_path):
-            os.makedirs(download_path)
+        if config['pclsearch']['check_cache']:
+            if os.path.exists(download_path+"/"+source_name+"-"+source_year+".url"):
+                print ">>>Source in cache."
+            else:
+                if not os.path.exists(download_path):
+                    os.makedirs(download_path)
 
-        start_urls=[]
-        start_urls.append(start_url)
-        process.crawl(eval(spider_class),start_urls=start_urls,download_path=download_path+"/"+source_name+"-"+source_year+".url")
+                start_urls=[]
+                start_urls.append(start_url)
+                process.crawl(eval(spider_class),start_urls=start_urls,download_path=download_path+"/"+source_name+"-"+source_year+".url")
 
 
     process.start() # the script will block here until the crawling is finished
