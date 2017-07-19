@@ -55,11 +55,11 @@ def crawl_all():
         start_url=source['start_url']
 
         download_path=config['pclsearch']['pdfs_root']+"/"+source_type+"/"+source_name+"/"+source_year
-        print "*******"+download_path
+        #print "*******"+download_path
 
         if config['pclsearch']['check_cache']:
             if os.path.exists(download_path+"/"+source_name+"-"+source_year+".url"):
-                print ">>>Source in cache."
+                print ">>>In cache: " + download_path+"/"+source_name+"-"+source_year+".url"
             else:
                 if not os.path.exists(download_path):
                     os.makedirs(download_path)

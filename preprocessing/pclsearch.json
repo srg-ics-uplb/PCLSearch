@@ -8,34 +8,6 @@
                     {   
                         "type":"conference",
                         "name":"pcsc",
-                        "year": "2017",
-                        "start_url":"https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2017",
-                        "spider_class":"RedSpider"
-                    },
-                    {   
-                        "type":"conference",           
-                        "name":"pcsc",
-                        "year": "2016",
-                        "start_url":"https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2016",
-                        "spider_class":"RedSpider"
-                    },
-                    {   
-                        "type":"conference",
-                        "name":"pcsc",
-                        "year": "2015",
-                        "start_url":"https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc-2015",
-                        "spider_class":"RedSpider"
-                    },
-                    {   
-                        "type":"conference",
-                        "name":"pcsc",
-                        "year": "2014",
-                        "start_url":"https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2014",
-                        "spider_class":"RedSpider"
-                    },
-                    {   
-                        "type":"conference",
-                        "name":"pcsc",
                         "year": "2013",
                         "start_url":"https://sites.google.com/a/dcs.upd.edu.ph/csp-proceedings/pcsc2013",
                         "spider_class":"RedSpider"

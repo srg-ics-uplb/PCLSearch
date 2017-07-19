@@ -86,7 +86,7 @@ def download_all():
             else:
                 #print line
                 if os.path.exists(download_path+"/"+str(i)+".pdf"):
-                    print ">>>Source in cache."
+                    print ">>>In cache:" + download_path+"/"+str(i)+".pdf"
                 else:
                     downloader.download(line,download_path+"/"+str(i)+".pdf")
                 url_path_map['articles'].append({"url":line,"path":download_path+"/"+str(i)+".pdf"})
