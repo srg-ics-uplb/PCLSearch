@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
   template:`
     <div>
       <h5>{{article.title}}</h5>      
-      <button (click)="getArticle('59702b25e658510010a05846')">Edit</button>
+      <button (click)="getArticle('597092e2fa2d6800117afab7')">Edit</button>
     </div>
   `
 

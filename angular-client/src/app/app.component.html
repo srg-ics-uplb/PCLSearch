@@ -25,7 +25,8 @@
     <h3>Articles</h3>
     <ul>
     <div *ngFor="let article of articles">
-        <li><a href="{{article.url}}">{{article.title}}</a></li>
+<!--        <li><a href="{{article.url}}">{{article.title}}</a></li> -->
+        <li><a routerLink="/articles/{{article.id}}" routerLinkActive="active">{{article.title}}</a></li>
     </div>
     </ul>
 <!--
