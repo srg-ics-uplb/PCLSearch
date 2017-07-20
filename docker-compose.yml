@@ -2,27 +2,17 @@ version: '2' # specify docker-compose version
 
 # Define the services/containers to be run
 services:
-  angular: # name of the first service
-    build: angular-client # specify the directory of the Dockerfile
-    ports:
-      - "4200:4200" # specify port forewarding
-    volumes:
-      - /home/jachermocilla/Sources/mean-docker/angular-client:/opt/dev
-
-  express: #name of the second service
-    build: express-server # specify the directory of the Dockerfile
-    ports:
-      - "3000:3000" #specify ports forewarding
-    volumes:
-      - /home/jachermocilla/Sources/mean-docker/express-server:/opt/dev
-    links:
-      - database
 
   database: # name of the third service
     image: mongo # specify image to build container from
     ports:
       - "27017:27017" # specify port forewarding
-  
+
+  grobid: # 
+    image: lfoppiano/grobid:0.4.1
+    ports:
+      - "9090:8080" # specify port forewarding
+
   preprocessing: # name of the third service
     build: preprocessing  # specify image to build container from
     tty: true
@@ -34,8 +24,20 @@ services:
       - express
     volumes:
       - /home/jachermocilla/Sources/PCLSearch/preprocessing:/opt/dev
-
-  grobid: # 
-    image: lfoppiano/grobid:0.4.1
+  
+  express: #name of the second service
+    build: express-server # specify the directory of the Dockerfile
     ports:
-      - "9090:8080" # specify port forewarding
+      - "3000:3000" #specify ports forewarding
+    volumes:
+      - /home/jachermocilla/Sources/mean-docker/express-server:/opt/dev
+    links:
+      - database
+
+  angular: # name of the first service
+    build: angular-client # specify the directory of the Dockerfile
+    ports:
+      - "4200:4200" # specify port forewarding
+    volumes:
+      - /home/jachermocilla/Sources/mean-docker/angular-client:/opt/dev
+
