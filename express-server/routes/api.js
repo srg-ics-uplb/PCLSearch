@@ -36,22 +36,17 @@ const Author = mongoose.model('Author', authorSchema);
 
 /* GET api listing. */
 router.get('/', (req, res) => {
-		res.send('api works');
+		res.send('PCLSearch API is online.');
 });
+
+
+/*------------------ articles api ------*/
 
 /* GET all articles. */
 router.get('/articles', (req, res) => {
 	Article.find({}, (err, articles) => {
 		if (err) res.status(500).send(error)
-		res.status(200).json(users);
-	});
-});
-
-/* GET all authors. */
-router.get('/authors', (req, res) => {
-	Author.find({}, (err, authors) => {
-		if (err) res.status(500).send(error)
-		res.status(200).json(authors);
+		res.status(200).json(articles);
 	});
 });
 
@@ -59,15 +54,7 @@ router.get('/authors', (req, res) => {
 router.get('/articles/:id', (req, res) => {
 	Article.findById(req.params.id, (err, articles) => {
 		if (err) res.status(500).send(error)
-		res.status(200).json(users);
-	});
-});
-
-/* GET one author. */
-router.get('/authors/:id', (req, res) => {
-	Author.findById(req.params.id, (err, authors) => {
-		if (err) res.status(500).send(error)
-		res.status(200).json(authors);
+		res.status(200).json(articles);
 	});
 });
 
@@ -80,6 +67,7 @@ router.post('/articles', (req, res) => {
         xml_headers: req.body.xml_headers,
         xml_full: req.body.xml_full,
         xml_references: req.body.xml_references,
+        authors: req.body.authors,
 	});
 
 	article.save(error => {
@@ -89,6 +77,59 @@ router.post('/articles', (req, res) => {
 			message: 'Article created successfully'
 		});
 	});
+});
+
+/* Update an article */
+router.put('/articles/:id', function (req, res) {
+    Article.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, article) {
+        if (err) return res.status(500).send("There was a problem updating the article.");
+        res.status(200).send(article);
+    });
+});
+
+
+/*---------------------- authors api -------*/
+/* GET all authors. */
+router.get('/authors', (req, res) => {
+	Author.find({}, (err, authors) => {
+		if (err) res.status(500).send(error)
+		res.status(200).json(authors);
+	});
+});
+
+
+/* GET one author. */
+router.get('/authors/:id', (req, res) => {
+	Author.findById(req.params.id, (err, authors) => {
+		if (err) res.status(500).send(error)
+		res.status(200).json(authors);
+	});
+});
+
+
+/* Create an author. */
+router.post('/authors', (req, res) => {
+	let author = new Author({
+		name: req.body.name,
+		email: req.body.email,
+		institution: req.body.institution,
+        articles: req.body.articles,
+	});
+
+	author.save(error => {
+		if (error) res.status(500).send(error);
+		res.status(201).json({
+			message: 'Author created successfully'
+		});
+	});
+});
+
+/* Update an author */
+router.put('/authors/:id', function (req, res) {
+    Article.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, author) {
+        if (err) return res.status(500).send("There was a problem updating the author.");
+        res.status(200).send(author);
+    });
 });
 
 module.exports = router;
