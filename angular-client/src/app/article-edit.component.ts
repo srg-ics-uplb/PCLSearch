@@ -7,8 +7,8 @@ import 'rxjs/add/operator/map';
   selector: 'article-edit',
   template:`
     <div>
-      <button (click)="getArticle('59702b25e658510010a05846')">Edit Article</button>
       <h5>{{article.title}}</h5>      
+      <button (click)="getArticle('59702b25e658510010a05846')">Edit</button>
     </div>
   `
 
@@ -25,7 +25,6 @@ export class ArticleEditComponent {
   article: {};
 
   ngOnInit() {
-    this.getArticle('59702b25e658510010a05846');
   }
 
   getArticle(id) {
