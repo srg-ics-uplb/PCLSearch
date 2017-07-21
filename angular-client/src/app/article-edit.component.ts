@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'article-edit',
-  template:`
+  template:`  
+  <div *ngIf="article">
+    <h3>{{article.title}} details!</h3>
+    <div><label>Id: </label>{{article._id}}</div>
     <div>
-      <h5>{{article.title}}</h5>      
-      <button (click)="getArticle('597092e2fa2d6800117afab7')">Edit</button>
+      <label>Title: </label>
+      <input [(ngModel)]="article.title" placeholder="title"/>
     </div>
-  `
+  </div>
+`
 
 })
 
@@ -23,7 +27,7 @@ export class ArticleEditComponent {
   }
 
   //the article associated with this component
-  article: {};
+  @Input() article: {};
 
   ngOnInit() {
   }

@@ -13,13 +13,6 @@
         {{article.title}}
       </li>
     </ul>
-  </div>
-  <div *ngIf="selectedArticle">
-    <h2>{{selectedArticle.title}} details!</h2>
-    <div><label>id: </label>{{selectedArticle._id}}</div>
-    <div>
-      <label>Title: </label>
-      <input [(ngModel)]="selectedArticle.title" placeholder="title"/>
-    </div>
+    <article-edit [article]="selectedArticle"></article-edit>
   </div>
 </div>
