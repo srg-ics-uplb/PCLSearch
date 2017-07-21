@@ -22,6 +22,7 @@ export class ArticleEditComponent {
   constructor(private http: Http){
   }
 
+  //the article associated with this component
   article: {};
 
   ngOnInit() {

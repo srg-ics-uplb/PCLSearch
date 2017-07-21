@@ -19,11 +19,17 @@ export class AppComponent implements OnInit {
   // Declare empty list of people
   articles: any[] = [];
 
+  selectedArticle: {};
+
   constructor(private http: Http) {}
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
     this.getAllArticles();
+  }
+
+  onSelect(article: {}): void {
+    this.selectedArticle = article;
   }
 
   // Add one article to the API
