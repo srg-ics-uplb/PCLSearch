@@ -10,26 +10,16 @@
       <li *ngFor="let article of articles"
         [class.selected]="article === selectedArticle"
         (click)="onSelect(article)">
-        <span class="badge">{{article.id}}</span> {{article.title}}
+        {{article.title}}
       </li>
     </ul>
-    <div *ngIf="selectedArticle">
-      <h2>{{selectedArticle.title}} details!</h2>
-      <div><label>id: </label>{{selectedArticle.id}}</div>
-      <div>
-        <label>Title: </label>
-        <input [(ngModel)]="selectedArticle.title" placeholder="title"/>
-      </div>
+  </div>
+  <div *ngIf="selectedArticle">
+    <h2>{{selectedArticle.title}} details!</h2>
+    <div><label>id: </label>{{selectedArticle._id}}</div>
+    <div>
+      <label>Title: </label>
+      <input [(ngModel)]="selectedArticle.title" placeholder="title"/>
     </div>
-
-
-<!--
-    <ul>
-    <div *ngFor="let article of articles">
-        <li><a href="{{article.url}}">{{article.title}}</a></l>
-            <li>{{article.title}}<article-edit [article]="selectedArticle"></article-edit></li>
-    </div>
-    </ul>
--->
   </div>
 </div>

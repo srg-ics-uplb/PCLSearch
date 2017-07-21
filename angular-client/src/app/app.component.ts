@@ -16,9 +16,10 @@ export class AppComponent implements OnInit {
   // Link to our api, pointing to localhost
   API = 'http://localhost:3000';
 
-  // Declare empty list of people
+  // Declare empty list of articles
   articles: any[] = [];
 
+  //the selected article
   selectedArticle: {};
 
   constructor(private http: Http) {}
@@ -28,6 +29,8 @@ export class AppComponent implements OnInit {
     this.getAllArticles();
   }
 
+  //method to set the selected article
+  //event handler
   onSelect(article: {}): void {
     this.selectedArticle = article;
   }
