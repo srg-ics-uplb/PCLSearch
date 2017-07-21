@@ -13,6 +13,10 @@ import 'rxjs/add/operator/map';
       <label>Title: </label>
       <input [(ngModel)]="article.title" placeholder="title"/>
     </div>
+    <div>
+      <label>URL: </label>
+      <input [(ngModel)]="article.url" placeholder="url"/>
+    </div>
   </div>
 `
 
