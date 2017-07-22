@@ -13,17 +13,17 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./author.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AuthorComponent implements OnInit {
   title = 'app works!';
 
   // Link to our api, pointing to localhost
-  API = 'http://localhost:3000';
+  protected API = 'http://localhost:3000';
 
   // Declare empty list of articles
-  authors any[] = [];
+  protected authors: any[] = [];
 
   //the selected article
-  selectedAuthor: {};
+  protected selectedAuthor: {};
   
   //data source
   protected dataService: CompleterData;

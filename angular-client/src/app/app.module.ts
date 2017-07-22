@@ -9,6 +9,7 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { AppComponent } from './app.component';
 import { MyComponent } from './my.component';
 import { ArticleEditComponent } from './article-edit.component';
+import { AuthorComponent } from './author.component';
 
 import { RouterModule, Routes } from '@angular/router';
 
@@ -16,7 +17,8 @@ import { RouterModule, Routes } from '@angular/router';
   declarations: [
     MyComponent,
     AppComponent,
-    ArticleEditComponent
+    ArticleEditComponent,
+    AuthorComponent
   ],
   imports: [
     Ng2CompleterModule,
