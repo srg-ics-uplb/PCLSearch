@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
+import { CompleterService, CompleterData } from 'ng2-completer';
+
+
 
 // Import rxjs map operator
 import 'rxjs/add/operator/map';
@@ -21,12 +24,24 @@ export class AppComponent implements OnInit {
 
   //the selected article
   selectedArticle: {};
+  
+  //data source
+  protected dataService: CompleterData;
 
-  constructor(private http: Http) {}
+  //search string
+  protected searchStr: string;
+  
+  protected searchData = [
+    {'title':'paper 1'},
+    {'title':'paper 2'},
+    {'title':'paper 3'}
+  ];
+
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
     this.getAllArticles();
+    this.dataService = this.completerService.local(this.searchData, 'title', 'title');
   }
 
   //method to set the selected article
@@ -53,4 +68,8 @@ export class AppComponent implements OnInit {
         this.articles = articles
       }, error => console.log(error))
   }
+
+  constructor(private http: Http, private completerService: CompleterService) {
+  }
+
 }

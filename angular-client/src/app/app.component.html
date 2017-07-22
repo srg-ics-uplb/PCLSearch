@@ -6,6 +6,12 @@
 <div class="container">
   <div >
     <h3>Articles</h3>
+    <ng2-completer 
+      [(ngModel)]="searchStr" 
+      [datasource]="dataService" 
+      [minSearchLength]="0">
+    </ng2-completer>
+<!--
     <ul class="articles">
       <li *ngFor="let article of articles"
         [class.selected]="article === selectedArticle"
@@ -14,5 +20,6 @@
       </li>
     </ul>
     <article-edit [article]="selectedArticle"></article-edit>
+-->
   </div>
 </div>
