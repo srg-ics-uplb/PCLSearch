@@ -22,6 +22,7 @@ services:
     links:
       - grobid
       - express
+      - elasticsearch
     volumes:
       - /home/jachermocilla/Sources/PCLSearch/preprocessing:/opt/dev
   
@@ -40,4 +41,9 @@ services:
       - "4200:4200" # specify port forewarding
     volumes:
       - /home/jachermocilla/Sources/mean-docker/angular-client:/opt/dev
+  
+  elasticsearch: # name of the first service
+    build: elasticsearch # specify the directory of the Dockerfile
+    ports:
+      - "9200:9200" # specify port forewarding
 
