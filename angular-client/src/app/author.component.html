@@ -1,0 +1,25 @@
+<nav class="navbar navbar-light bg-faded">
+  <div class="container">
+    <a class="navbar-brand" href="#">Philippine Computing Literature Search Engine</a>
+  </div>
+</nav>
+<div class="container">
+  <div >
+    <h3>Authors</h3>
+    <ng2-completer 
+      [(ngModel)]="searchStr" 
+      [datasource]="dataService" 
+      [minSearchLength]="0">
+    </ng2-completer>
+<!--
+    <ul class="authors">
+      <li *ngFor="let author of authors"
+        [class.selected]="authors === selectedAuthors"
+        (click)="onSelect(author)">
+        {{author.name}}
+      </li>
+    </ul>
+    <author-edit [author]="selectedAuthor"></author-edit>
+-->
+  </div>
+</div>

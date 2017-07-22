@@ -3,7 +3,7 @@ version: '2' # specify docker-compose version
 # Define the services/containers to be run
 services:
 
-  database: # name of the third service
+  mongodb: # name of the third service
     image: mongo # specify image to build container from
     ports:
       - "27017:27017" # specify port forewarding
@@ -22,7 +22,7 @@ services:
     links:
       - grobid
       - express
-      - elasticsearch
+#      - elasticsearch
     volumes:
       - /home/jachermocilla/Sources/PCLSearch/preprocessing:/opt/dev
   
@@ -33,7 +33,7 @@ services:
     volumes:
       - /home/jachermocilla/Sources/mean-docker/express-server:/opt/dev
     links:
-      - database
+      - mongodb
 
   angular: # name of the first service
     build: angular-client # specify the directory of the Dockerfile
@@ -42,8 +42,8 @@ services:
     volumes:
       - /home/jachermocilla/Sources/mean-docker/angular-client:/opt/dev
   
-  elasticsearch: # name of the first service
-    build: elasticsearch # specify the directory of the Dockerfile
-    ports:
-      - "9200:9200" # specify port forewarding
+#  elasticsearch: # name of the first service
+#    build: elasticsearch # specify the directory of the Dockerfile
+#    ports:
+#      - "9200:9200" # specify port forewarding
 

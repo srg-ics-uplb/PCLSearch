@@ -35,7 +35,6 @@ class PCLSearchExtractor:
         root = ET.fromstring(headers)
         title=u"notitle"
         abstract=u"noabstract"
-        authors=[]
 
         for node in root.iter():
             #print str(node.tag)+"=="+ str(node.attrib)
@@ -43,32 +42,36 @@ class PCLSearchExtractor:
                 t = node.find('{http://www.tei-c.org/ns/1.0}title') 
                 if t is not None:
                     title=t.text
-            #    elif str(node.tag) == '{http://www.tei-c.org/ns/1.0}abstract':
-            #        p=node.find('{http://www.tei-c.org/ns/1.0}p');
-            #        if p is not None:
-            #            abstract=p.text
+            elif str(node.tag) == '{http://www.tei-c.org/ns/1.0}abstract':
+                p=node.find('{http://www.tei-c.org/ns/1.0}p');
+                if p is not None:
+                    abstract=p.text.encode('ascii','ignore')
 
-            #for author in root.findall('.//{http://www.tei-c.org/ns/1.0}author'):
-            #    author_name=""
-            #    for persName in author.findall('.//{http://www.tei-c.org/ns/1.0}persName'):
-            #        for forename in persName.findall('.//{http://www.tei-c.org/ns/1.0}forename'):
-            #            author_name=author_name+" "+forename.text
-            #        surname = persName.find('{http://www.tei-c.org/ns/1.0}surname')        
-            #        if surname is not None:
-            #            author_name=author_name+" "+surname.text
-            #        authors.append(author_name)
+            authors=[]
+            for author in root.findall('.//{http://www.tei-c.org/ns/1.0}author'):
+                author_name=""
+                for persName in author.findall('.//{http://www.tei-c.org/ns/1.0}persName'):
+                    for forename in persName.findall('.//{http://www.tei-c.org/ns/1.0}forename'):
+                        author_name=author_name+" "+forename.text
+                    surname = persName.find('{http://www.tei-c.org/ns/1.0}surname')        
+                    if surname is not None:
+                        author_name=author_name+" "+surname.text
+                    authors.append(author_name)
 
-            #print extracted data data
+        #print extracted data data
         print title
-        #print authors
-        #print abstract.encode('ascii','ignore')
+        print authors
+        print abstract
 
         if title is None:
             title="(Untitled)"
             
         inserter = 'http://express:3000/articles'
-        response = requests.post(inserter,{'title':title,'url':url,'xml_headers':headers,'xml_full':full,'xml_references':references}) 
+        response = requests.post(inserter,{'title':title,'abs':abstract,'url':url,'xml_headers':headers,'xml_full':full,'xml_references':references}) 
 
+        inserter = 'http://express:3000/authors'
+        for a in authors:
+            response = requests.post(inserter,{'name':a,'email':'','institution':''})
 
 def extract_all():
     with open('../../pclsearch.json') as config_file:

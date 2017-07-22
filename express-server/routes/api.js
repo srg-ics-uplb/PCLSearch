@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 // MongoDB URL from the docker-compose file
-const dbHost = 'mongodb://database/pclsearch';
+const dbHost = 'mongodb://mongodb/pclsearch';
 
 // Connect to mongodb
 mongoose.connect(dbHost);
@@ -13,6 +13,7 @@ mongoose.connect(dbHost);
 const articleSchema = new mongoose.Schema({
   id: mongoose.Schema.ObjectId,
   title: String,
+  abs: String,
   url: String,
   url2: String,
   xml_headers: String,
@@ -62,6 +63,7 @@ router.get('/articles/:id', (req, res) => {
 router.post('/articles', (req, res) => {
 	let article = new Article({
 		title: req.body.title,
+		abs: req.body.abs,
 		url: req.body.url,
 		url2: req.body.url2,
         xml_headers: req.body.xml_headers,
