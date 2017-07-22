@@ -40,7 +40,6 @@ export class AuthorComponent implements OnInit {
 
   // Angular 2 Life Cycle event when component has been initialized
   ngOnInit() {
-    this.getAllAuthors();
     this.dataService = this.completerService.local(this.searchData, 'name', 'name');
   }
 
